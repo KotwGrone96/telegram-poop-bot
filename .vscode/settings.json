@@ -1,0 +1,17 @@
+{
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.wordWrap": "on",
+    "editor.bracketPairColorization.enabled": true,
+    "prettier.arrowParens": "always",
+    "prettier.bracketSpacing": true,
+    "prettier.printWidth": 100,
+    "prettier.jsxSingleQuote": true,
+    "prettier.singleQuote": true,
+    "prettier.quoteProps": "as-needed",
+    "prettier.endOfLine": "auto",
+    "prettier.singleAttributePerLine": true,
+    "prettier.semi": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true
+  }
+  
