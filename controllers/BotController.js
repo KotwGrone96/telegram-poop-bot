@@ -1,8 +1,10 @@
 const User = require('./../models/user');
+const { getRandomJoke, jokes } = require('./../jokes/jokes');
 class BotController {
   flor = process.env.FLOR_ID;
   nelson = process.env.NELSON_ID;
   paula = process.env.PAULA_ID;
+  static lastJoke = '';
 
   Start(ctx) {
     ctx.reply(
@@ -11,24 +13,22 @@ class BotController {
   }
 
   Hears(ctx) {
-    console.log(ctx.message.from);
-    const { id, username } = ctx.message.from;
-    console.log(`${username} mandó un poop`);
+    async function init(ctx) {
+      console.log(ctx.message.from);
+      const { id, username } = ctx.message.from;
+      console.log(`${username} mandó un poop`);
+      const user = await User.findOne({ where: { tlg_user_id: id } });
+      if (user == null) {
+        ctx.reply('Amigue, te falta registrarte.\n Hacete un favor y escribí /register, gracias.');
+        return;
+      }
+      await User.update({ poops: user.poops + 1 }, { where: { tlg_user_id: id } });
 
-    User.findOne({ where: { tlg_user_id: id } }).then((user) => {
-      User.update(
-        { poops: user.poops + 1 },
-        {
-          where: {
-            tlg_user_id: id,
-          },
-        }
-      ).then(() => {
-        ctx.reply(`Que lindo cago te mandaste, ${username} 💩`);
-      });
-    });
-
-    // ctx.reply(`Que buen cago te mandaste ${username}`);
+      const joke = getRandomJoke(jokes, BotController.lastJoke);
+      BotController.lastJoke = joke;
+      ctx.reply(joke);
+    }
+    init(ctx);
   }
 
   Score(ctx) {
@@ -97,6 +97,20 @@ class BotController {
     ctx.reply(
       '/about te contará un poco sobre el bot 💩\n /register hará que el bot te registre y puedas empezar a acumular cagadas 💩\n /score te mostrará el total de tus cagadas acumuladas hasta el momento 💩\n /scores te mostrará el total de cagadas de todos les personas registrades 💩'
     );
+  }
+
+  Less(ctx) {
+    async function init(ctx) {
+      const { id, username } = ctx.message.from;
+      const user = await User.findOne({ where: { tlg_user_id: id } });
+      if (user == null) {
+        ctx.reply('Amigue, te falta registrarte.\n Hacete un favor y escribí /register, gracias.');
+        return;
+      }
+      await User.update({ poops: user.poops - 1 }, { where: { tlg_user_id: id } });
+      ctx.reply(`${username} ha restado un poop 💩`);
+    }
+    init(ctx);
   }
 }
 
