@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/poops', (req, res) => {
+router.get('/', (req, res) => {
   res.render('index', {
     title: 'Poop Scores',
     message: 'APP DE BOT TELEGRAM POOPS',

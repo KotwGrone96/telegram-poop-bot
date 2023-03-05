@@ -1,6 +1,7 @@
 require('dotenv').config();
+require('./db/connection');
 const express = require('express');
-const vhost = require('vhost');
+// const vhost = require('vhost');
 const router = require('./routes/router');
 const path = require('path');
 
@@ -10,10 +11,11 @@ const host = 'poopscores.com';
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+app.use('/poops', router);
 
-app.use(vhost(host, router), (res, req, next) => {
-  next();
-});
+// app.use(vhost(host, router), (res, req, next) => {
+//   next();
+// });
 
 app.use((req, res) => {
   res.send('RUTA NO ENCONTRADA');
