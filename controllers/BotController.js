@@ -1,5 +1,8 @@
+const fs = require('fs').promises;
+
 const User = require('./../models/user');
-const { getRandomJoke, jokes } = require('./../jokes/jokes');
+const { getRandomJoke, jokes } = require('./../utils/jokes');
+const getExcel = require('./../utils/excel');
 class BotController {
   flor = process.env.FLOR_ID;
   nelson = process.env.NELSON_ID;
@@ -109,6 +112,31 @@ class BotController {
       }
       await User.update({ poops: user.poops - 1 }, { where: { tlg_user_id: id } });
       ctx.reply(`${username} ha restado un poop 💩`);
+    }
+    init(ctx);
+  }
+
+  Excel(ctx) {
+    async function init(ctx) {
+      const users = await User.findAll();
+      if (users.length == 0) {
+        ctx.reply(
+          'Aún no hay usuarios registrados.\n Escribí /register para comenzar con tus cagadas 💩'
+        );
+        return;
+      }
+      const excelName = getExcel(users, (err, stats) => {
+        if (err) {
+          console.error(err);
+          ctx.reply('No se pudo generar el Excel!!!');
+          return;
+        }
+        ctx.reply('Excel generado correctamente!!! 💩');
+        ctx.sendDocument({ source: `${excelName}` });
+        setTimeout(async () => {
+          await fs.unlink(`./${excelName}`);
+        }, 3000);
+      });
     }
     init(ctx);
   }

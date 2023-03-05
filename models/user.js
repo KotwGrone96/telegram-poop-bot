@@ -18,6 +18,7 @@ const User = sequelize.define(
     tlg_user_id: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     poops: {
       type: DataTypes.SMALLINT,
