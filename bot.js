@@ -1,46 +1,36 @@
 const { Telegraf } = require('telegraf');
 const BotController = require('./controllers/BotController');
-// const User = require('./models/user');
 
 const botKey = process.env.NODE_ENV == 'production' ? process.env.BOT_KEY : process.env.BOT_DEV_KEY;
 
 const bot = new Telegraf(botKey);
 const controller = new BotController();
 
-bot.use(async (ctx, next) => {
-  const { id, username } = ctx.message.from;
-  if (id == process.env.FLOR_ID || id == process.env.NELSON_ID || id == process.env.PAULA_ID) {
-    await next();
-  } else {
-    ctx.reply(`Y vos quién chota sos? ${username}`);
-  }
-});
+const isPrivate = async (ctx, next) => {
+  const { type } = ctx.message.chat;
+  if (type == 'private') return ctx.reply('PoopBot solo puede usarse en grupos de telegram 💩');
+  await next();
+};
 
 bot.start((ctx) => controller.Start(ctx));
 
-bot.hears('💩', (ctx) => controller.Hears(ctx));
+bot.hears('💩', isPrivate, (ctx) => controller.Hears(ctx));
 
-bot.command('/score', (ctx) => controller.Score(ctx));
+bot.command('/today', isPrivate, (ctx) => controller.Today(ctx));
 
-bot.command('/scores', (ctx) => controller.Scores(ctx));
+bot.command('/scores', isPrivate, (ctx) => controller.Scores(ctx));
 
 bot.command('/about', (ctx) => controller.About(ctx));
 
-bot.command('/register', (ctx) => controller.Register(ctx));
+bot.command('/register', isPrivate, (ctx) => controller.Register(ctx));
 
 bot.command('/help', (ctx) => controller.Help(ctx));
 
-bot.command('/less', (ctx) => controller.Less(ctx));
+// bot.command('/less', isPrivate, (ctx) => controller.Less(ctx));
 
-bot.command('/excel', (ctx) => controller.Excel(ctx));
+bot.command('/excel', isPrivate, (ctx) => controller.Excel(ctx));
 
-// bot.command('/poops', (ctx) => {
-//   ctx.replyWithHTML('https://nelsongamerodev.com/poops');
-// });
-
-// bot.on('message', (ctx) => {
-//   console.log(ctx.message.text);
-// });
+bot.command('/addchat', isPrivate, (ctx) => controller.AddChat(ctx));
 
 console.log('BOT TELEGRAM READY');
 

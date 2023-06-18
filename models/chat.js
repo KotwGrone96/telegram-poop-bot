@@ -2,27 +2,27 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('./../db/dbconfig');
 // const Poop = require('./poops');
 
-const User = sequelize.define(
-  'User',
+const Chat = sequelize.define(
+  'Chat',
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
+      allowNull: false,
       primaryKey: true,
-      allowNull: false,
     },
-
-    tlg_username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    tlg_user_id: {
-      type: DataTypes.STRING,
+    tlg_chat_id: {
+      type: DataTypes.TEXT,
+      unique: true,
       allowNull: false,
       unique: true,
+    },
+    tlg_chat_name: {
+      type: DataTypes.TEXT,
+      allowNull: false,
     },
   },
   { timestamps: true }
 );
 
-module.exports = User;
+module.exports = Chat;

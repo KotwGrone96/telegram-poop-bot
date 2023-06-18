@@ -11,17 +11,17 @@ const getExcel = (arr = [], callback) => {
     },
   });
   const date = moment(new Date()).format('DD-MM-YYYY-hhmmssa');
-  ws.cell(1, 1).string('id').style(style);
+  ws.cell(1, 1).string('tlg_chatname').style(style);
   ws.cell(1, 2).string('tlg_username').style(style);
-  ws.cell(1, 3).string('tlg_user_id').style(style);
+  ws.cell(1, 3).string('date').style(style);
   ws.cell(1, 4).string('poops').style(style);
 
   arr.forEach((item, index) => {
     const row = index + 2;
-    ws.cell(row, 1).string(String(item.id)).style(style);
-    ws.cell(row, 2).string(String(item.tlg_username)).style(style);
-    ws.cell(row, 3).string(String(item.tlg_user_id)).style(style);
-    ws.cell(row, 4).number(item.poops).style(style);
+    ws.cell(row, 1).string(item.Chat.tlg_chat_name).style(style);
+    ws.cell(row, 2).string(item.User.tlg_username).style(style);
+    ws.cell(row, 3).string(item.poop_date).style(style);
+    ws.cell(row, 4).number(item.poop_amount).style(style);
   });
   wb.write(`${date}.xlsx`, callback);
   return `${date}.xlsx`;

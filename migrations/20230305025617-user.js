@@ -7,8 +7,8 @@ module.exports = {
       id: {
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true,
         type: Sequelize.INTEGER,
+        primaryKey: true,
       },
       tlg_username: {
         type: Sequelize.STRING,
@@ -17,10 +17,6 @@ module.exports = {
       tlg_user_id: {
         type: Sequelize.STRING,
         allowNull: false,
-      },
-      poops: {
-        type: Sequelize.SMALLINT,
-        allowNull: true,
       },
       createdAt: {
         allowNull: false,
@@ -40,6 +36,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
+    await queryInterface.dropTable('Users');
     /**
      * Add reverting commands here.
      *

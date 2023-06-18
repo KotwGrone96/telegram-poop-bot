@@ -1,15 +1,7 @@
-const { Sequelize } = require('sequelize');
-
-const sequelize =
-  process.env.NODE_ENV == 'production'
-    ? new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
-        host: process.env.DN_HOST,
-        dialect: 'mysql',
-      })
-    : new Sequelize('poops_telegram_bot', 'root', '', {
-        host: 'localhost',
-        dialect: 'mysql',
-      });
+const sequelize = require('./dbconfig');
+require('./../models/user');
+require('./../models/chat');
+require('./../models/poops');
 
 const connect = async () => {
   try {
@@ -25,5 +17,3 @@ const connect = async () => {
 };
 
 connect();
-
-module.exports = sequelize;
