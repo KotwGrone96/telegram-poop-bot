@@ -3,7 +3,7 @@ const BotController = require('./controllers/BotController');
 
 const botKey = process.env.NODE_ENV == 'production' ? process.env.BOT_KEY : process.env.BOT_DEV_KEY;
 
-export const bot = new Telegraf(botKey);
+const bot = new Telegraf(botKey);
 const controller = new BotController();
 
 const isPrivate = async (ctx, next) => {
@@ -32,4 +32,19 @@ bot.command('/excel', isPrivate, (ctx) => controller.Excel(ctx));
 
 bot.command('/addchat', isPrivate, (ctx) => controller.AddChat(ctx));
 
-console.log('BOT TELEGRAM READY');
+if (process.env.NODE_ENV == 'production') {
+  bot
+    .launch({
+      webhook: {
+        domain: 'https://successful-rose-sunbonnet.cyclic.app',
+        port: process.env.PORT || 8000,
+      },
+    })
+    .then(() => {
+      console.info(`The bot ${bot.botInfo.username} is running on server`);
+    });
+} else {
+  bot.launch().then(() => {
+    console.info(`The bot ${bot.botInfo.username} is running locally`);
+  });
+}
