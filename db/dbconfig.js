@@ -4,6 +4,7 @@ const sequelize =
     ? new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
         host: process.env.DB_HOST,
         dialect: 'mysql',
+        port: process.env.DB_PORT,
       })
     : new Sequelize('poops_telegram_bot_v2', 'root', '', {
         host: 'localhost',
