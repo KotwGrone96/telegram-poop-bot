@@ -9,4 +9,11 @@ router.get('/', (req, res) => {
   });
 });
 
+router.post('/', (req, res) => {
+  res.json({
+    ok: true,
+    message: 'Webhook exitoso',
+  });
+});
+
 module.exports = router;
