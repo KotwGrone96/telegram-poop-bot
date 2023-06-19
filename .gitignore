@@ -4,5 +4,3 @@ config/config.json
 seeders/
 *.zip
 *.xlsx
-routes/
-server.js
