@@ -1,5 +1,5 @@
 require('dotenv').config();
-require('./db/connection');
+//require('./db/connection');
 const express = require('express');
 // const vhost = require('vhost');
 const router = require('./routes/router');

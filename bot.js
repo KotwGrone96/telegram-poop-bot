@@ -32,11 +32,13 @@ bot.command('/excel', isPrivate, (ctx) => controller.Excel(ctx));
 
 bot.command('/addchat', isPrivate, (ctx) => controller.AddChat(ctx));
 
+//bot.launch();
+
 if (process.env.NODE_ENV == 'production') {
   bot
     .launch({
       webhook: {
-        domain: 'https://successful-rose-sunbonnet.cyclic.app',
+        domain: 'https://wild-jade-sundress.cyclic.app',
         port: process.env.PORT || 8000,
       },
     })
